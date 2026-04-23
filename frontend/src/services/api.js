@@ -1,10 +1,12 @@
 import axios from 'axios';
 
 // Create axios instance with base URL
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+// In production Docker deployment, use relative URL (same domain)
+// In development, use the API URL from environment variable
+const API_URL = process.env.REACT_APP_API_URL || '';
 
 const api = axios.create({
-  baseURL: `${API_URL}/api`,
+  baseURL: API_URL ? `${API_URL}/api` : '/api',
   headers: {
     'Content-Type': 'application/json',
   },

@@ -192,6 +192,17 @@ io.on('connection', (socket) => {
   });
 });
 
+// Serve frontend static files in production
+if (process.env.NODE_ENV === 'production') {
+  const path = require('path');
+  app.use(express.static(path.join(__dirname, 'public')));
+
+  // Handle React routing, return all requests to React app
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  });
+}
+
 // Error handling middleware (must be last)
 app.use(errorHandler);
 
@@ -210,13 +221,19 @@ const connectDB = async () => {
 const PORT = process.env.PORT || 5000;
 
 const startServer = async () => {
-  await connectDB();
-  // On Render, listen on PORT only. For local dev, listen on 0.0.0.0
-  const HOST = process.env.NODE_ENV === 'production' ? undefined : '0.0.0.0';
-  server.listen(PORT, HOST, () => {
-    console.log(`Server running on port ${PORT}`);
-    console.log(`Socket.IO server ready`);
-  });
+  try {
+    await connectDB();
+    // On Render, listen on PORT only. For local dev, listen on 0.0.0.0
+    const HOST = process.env.NODE_ENV === 'production' ? undefined : '0.0.0.0';
+    server.listen(PORT, HOST, () => {
+      console.log(`Server running on port ${PORT}`);
+      console.log(`Socket.IO server ready`);
+    });
+  } catch (err) {
+    console.error('Server startup error:', err.message);
+    console.error('Full error:', err);
+    process.exit(1);
+  }
 };
 
 startServer();
@@ -224,5 +241,10 @@ startServer();
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (err) => {
   console.error(`Unhandled Rejection: ${err.message}`);
-  server.close(() => process.exit(1));
+  console.error('Full error:', err);
+  if (server) {
+    server.close(() => process.exit(1));
+  } else {
+    process.exit(1);
+  }
 });

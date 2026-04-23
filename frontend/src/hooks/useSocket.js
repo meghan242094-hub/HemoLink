@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { io } from 'socket.io-client';
 
-const SOCKET_URL = process.env.REACT_APP_SOCKET_URL || 'http://localhost:5000';
+// Use relative URL for Docker deployment (same domain)
+// Use environment variable for separate deployments
+const SOCKET_URL = process.env.REACT_APP_SOCKET_URL || '';
 
 /**
  * Custom hook for Socket.IO connection
@@ -21,8 +23,11 @@ export const useSocket = () => {
     const token = localStorage.getItem('token');
     
     if (token) {
-      // Create socket connection
-      const newSocket = io(SOCKET_URL, {
+      // Create socket connection - empty URL connects to same domain (for Docker)
+      const newSocket = SOCKET_URL ? io(SOCKET_URL, {
+        auth: { token },
+        transports: ['websocket', 'polling']
+      }) : io({
         auth: { token },
         transports: ['websocket', 'polling']
       });
