@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import QRCodeDisplay from '../components/QRCode';
 
 /**
  * Home Page Component
@@ -14,27 +15,32 @@ const Home = () => {
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-primary-600 to-primary-800 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-              Connect Blood Donors with Those in Need
-            </h1>
-            <p className="text-xl md:text-2xl mb-8 text-primary-100">
-              HemoLink bridges the gap between blood donors and recipients, 
-              saving lives through quick and easy connections.
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-              <Link
-                to="/register"
-                className="bg-white text-primary-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition text-lg"
-              >
-                Register Now
-              </Link>
-              <Link
-                to="/requests"
-                className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-primary-600 transition text-lg"
-              >
-                Find Blood
-              </Link>
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+                Connect Blood Donors with Those in Need
+              </h1>
+              <p className="text-xl md:text-2xl mb-8 text-primary-100">
+                HemoLink bridges the gap between blood donors and recipients, 
+                saving lives through quick and easy connections.
+              </p>
+              <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                <Link
+                  to="/register"
+                  className="bg-white text-primary-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition text-lg"
+                >
+                  Register Now
+                </Link>
+                <Link
+                  to="/requests"
+                  className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-primary-600 transition text-lg"
+                >
+                  Find Blood
+                </Link>
+              </div>
+            </div>
+            <div className="flex justify-center">
+              <QRCodeDisplay />
             </div>
           </div>
         </div>
