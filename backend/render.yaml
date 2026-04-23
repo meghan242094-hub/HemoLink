@@ -1,0 +1,21 @@
+# Render Deployment Configuration for HemoLink Backend
+
+services:
+  # Web Service
+  - type: web
+    name: hemolink-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: PORT
+        value: 10000
+      - key: FRONTEND_URL
+        sync: false
+        # Set this to your Vercel frontend URL after deployment
+        # Example: https://hemolink-frontend.vercel.app
