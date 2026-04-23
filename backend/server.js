@@ -208,12 +208,13 @@ const connectDB = async () => {
 
 // Start server
 const PORT = process.env.PORT || 5000;
-const HOST = process.env.HOST || '0.0.0.0';
 
 const startServer = async () => {
   await connectDB();
+  // On Render, listen on PORT only. For local dev, listen on 0.0.0.0
+  const HOST = process.env.NODE_ENV === 'production' ? undefined : '0.0.0.0';
   server.listen(PORT, HOST, () => {
-    console.log(`Server running on http://${HOST}:${PORT}`);
+    console.log(`Server running on port ${PORT}`);
     console.log(`Socket.IO server ready`);
   });
 };
