@@ -24,7 +24,7 @@ services:
           property: url
 
   # 2. Frontend Static Site
-  - type: static_site
+  - type: static
     name: hemolink-frontend
     plan: free
     rootDir: frontend
