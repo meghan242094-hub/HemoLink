@@ -2,7 +2,7 @@
 # Use this on Render.com: "New +" -> "Blueprint"
 
 services:
-  # 1. Backend Web Service
+  # 1. Backend Web Service (Node/Express)
   - type: web
     name: hemolink-backend
     runtime: node
@@ -14,16 +14,14 @@ services:
       - key: NODE_ENV
         value: production
       - key: MONGODB_URI
-        sync: false # Render will prompt you for this
+        sync: false # Paste your MongoDB Atlas connection string here
       - key: JWT_SECRET
         generateValue: true # Render will generate a secure key for you
       - key: FRONTEND_URL
-        fromService:
-          type: static_site
-          name: hemolink-frontend
-          property: url
+        sync: false # Set this to your frontend URL after deployment
+        # Example: https://hemolink-frontend.onrender.com
 
-  # 2. Frontend Static Site
+  # 2. Frontend Static Site (React)
   - type: web
     name: hemolink-frontend
     runtime: static
@@ -33,12 +31,7 @@ services:
     staticPublishPath: build
     envVars:
       - key: REACT_APP_API_URL
-        fromService:
-          type: web
-          name: hemolink-backend
-          property: url
+        sync: false # Set this to your backend URL after deployment
+        # Example: https://hemolink-backend.onrender.com
       - key: REACT_APP_SOCKET_URL
-        fromService:
-          type: web
-          name: hemolink-backend
-          property: url
+        sync: false # Same as above
