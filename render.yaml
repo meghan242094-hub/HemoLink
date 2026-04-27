@@ -24,8 +24,9 @@ services:
           property: url
 
   # 2. Frontend Static Site
-  - type: static
+  - type: web
     name: hemolink-frontend
+    runtime: static
     plan: free
     rootDir: frontend
     buildCommand: npm install && npm run build
